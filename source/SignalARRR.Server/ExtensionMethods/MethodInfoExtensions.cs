@@ -1,36 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 
-namespace doob.SignalARRR.Server.ExtensionMethods {
-    public static class MethodInfoExtensions {
+namespace doob.SignalARRR.Server.ExtensionMethods;
 
-        public static List<AuthorizeAttribute> GetAuthorizeData(this MethodInfo methodInfo) {
+public static class MethodInfoExtensions {
 
-            var authorizeData = methodInfo.GetCustomAttributes<AuthorizeAttribute>().ToList();
+    public static List<AuthorizeAttribute> GetAuthorizeData(this MethodInfo methodInfo) {
 
-            if (!authorizeData.Any()) {
-                var declaringType = methodInfo.DeclaringType;
-                if (declaringType != null) {
-                    authorizeData = declaringType.GetCustomAttributes<AuthorizeAttribute>().ToList();
-                }
+        var authorizeData = methodInfo.GetCustomAttributes<AuthorizeAttribute>().ToList();
 
-
-                /// Currently disable - would use Authorize Attributes from the Signalr Hub, if no Attribute at DeclaringType exists
-                //if (!authorizeData.Any()) {
-                //    if (declaringType.InheritFromClass(typeof(ServerMethods<>), false, false)) {
-                //        var harrType = declaringType.BaseType.GenericTypeArguments.FirstOrDefault();
-                //        if (harrType.InheritFromClass<HARRR>()) {
-                //            authorizeData = harrType.GetCustomAttributes<AuthorizeAttribute>().ToList();
-                //        }
-                //    }
-                //}
-                
+        if (!authorizeData.Any()) {
+            var declaringType = methodInfo.DeclaringType;
+            if (declaringType != null) {
+                authorizeData = declaringType.GetCustomAttributes<AuthorizeAttribute>().ToList();
             }
-
-            return authorizeData;
         }
 
+        return authorizeData;
     }
+
 }

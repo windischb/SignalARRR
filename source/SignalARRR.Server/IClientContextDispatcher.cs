@@ -1,21 +1,15 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using doob.SignalARRR.Common;
-using Microsoft.AspNetCore.Http;
+﻿using doob.SignalARRR.Common;
 
-namespace doob.SignalARRR.Server {
-    internal interface IClientContextDispatcher {
+namespace doob.SignalARRR.Server;
 
-        //Task ProxyClientAsync(string clientId, ServerRequestMessage serverRequestMessage, HttpContext httpContext);
+internal interface IClientContextDispatcher {
 
-        Task<TResult> InvokeClientAsync<TResult>(string clientId, ServerRequestMessage serverRequestMessage,
-            CancellationToken cancellationToken);
+    Task<TResult> InvokeClientAsync<TResult>(string clientId, ServerRequestMessage serverRequestMessage,
+        CancellationToken cancellationToken);
 
-        Task SendClientAsync(string clientId, ServerRequestMessage serverRequestMessage, CancellationToken cancellationToken);
+    Task SendClientAsync(string clientId, ServerRequestMessage serverRequestMessage, CancellationToken cancellationToken);
 
-        Task<string> Challenge(string clientId);
+    Task<string> Challenge(string clientId);
 
-        Task CancelToken(string clientId, Guid id);
-    }
+    Task CancelToken(string clientId, Guid id);
 }

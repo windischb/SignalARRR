@@ -1,16 +1,6 @@
-﻿using System;
+﻿namespace doob.SignalARRR.Common.Attributes;
 
-namespace doob.SignalARRR.Common.Attributes
-{
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
-    public class MessageNameAttribute : Attribute
-    {
-        public string Name { get; }
-
-        public MessageNameAttribute(string @namespace)
-        {
-            Name = @namespace;
-        }
-        
-    }
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+public class MessageNameAttribute(string ns) : Attribute {
+    public string Name { get; } = ns;
 }

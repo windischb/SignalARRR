@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net472</TargetFrameworks>
     <AssemblyName>doob.SignalARRR.Client</AssemblyName>
     <RootNamespace>doob.SignalARRR.Client</RootNamespace>
     <LangVersion>latest</LangVersion>

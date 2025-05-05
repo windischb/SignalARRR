@@ -1,26 +1,24 @@
-﻿using System;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using Microsoft.AspNetCore.Http.Connections.Client;
 using Microsoft.AspNetCore.SignalR.Client;
 
-namespace doob.SignalARRR.Client.ExtensionMethods {
-    public static class HubConnectionExtensions {
+namespace doob.SignalARRR.Client.ExtensionMethods;
 
-        public static IServiceProvider GetServiceProvider(this HubConnection hubConnection) {
+public static class HubConnectionExtensions {
 
-            var serviceProvider = (IServiceProvider)hubConnection.GetType().GetField("_serviceProvider", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(hubConnection);
-            return serviceProvider;
+    public static IServiceProvider GetServiceProvider(this HubConnection hubConnection) {
 
-        }
+        var serviceProvider = (IServiceProvider)hubConnection.GetType().GetField("_serviceProvider", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(hubConnection);
+        return serviceProvider;
 
-        public static Func<Task<string>> GetAccessTokenProvider(this HubConnection hubConnection) {
+    }
 
-            var connectionFactory = hubConnection.GetType().GetField("_connectionFactory", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(hubConnection);
+    public static Func<Task<string>> GetAccessTokenProvider(this HubConnection hubConnection) {
 
-            var httpConnectionOption = connectionFactory?.GetType().GetField("_httpConnectionOptions", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(connectionFactory) as HttpConnectionOptions;
+        var connectionFactory = hubConnection.GetType().GetField("_connectionFactory", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(hubConnection);
 
-            return httpConnectionOption?.AccessTokenProvider;
-        }
+        var httpConnectionOption = connectionFactory?.GetType().GetField("_httpConnectionOptions", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(connectionFactory) as HttpConnectionOptions;
+
+        return httpConnectionOption?.AccessTokenProvider;
     }
 }

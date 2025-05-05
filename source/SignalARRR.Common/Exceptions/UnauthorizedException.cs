@@ -1,6 +1,4 @@
-﻿using System;
+﻿namespace doob.SignalARRR.Common.Exceptions;
 
-namespace doob.SignalARRR.Common.Exceptions {
-    public class UnauthorizedException: Exception {
-    }
+public class UnauthorizedException: Exception {
 }

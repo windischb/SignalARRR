@@ -1,10 +1,10 @@
-﻿namespace doob.SignalARRR.ProxyGenerator {
-    public enum StreamingType {
+﻿namespace doob.SignalARRR.ProxyGenerator;
 
-        None,
-        Observable,
-        ChannelReader,
-        AsyncEnumerable,
+public enum StreamingType {
+
+    None,
+    Observable,
+    ChannelReader,
+    AsyncEnumerable,
         
-    }
 }

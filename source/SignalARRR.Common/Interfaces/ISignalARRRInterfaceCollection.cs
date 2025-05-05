@@ -1,16 +1,15 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 
-namespace doob.SignalARRR.Common.Interfaces {
-    public interface ISignalARRRInterfaceCollection {
-        void RegisterInterface<TInterface, TClass>() where TClass : class, TInterface;
-        void RegisterInterface<TInterface, TClass>(TClass instance) where TClass : class, TInterface;
-        void RegisterInterface<TInterface, TClass>(Func<IServiceProvider, TClass> factory) where TClass : class, TInterface;
+namespace doob.SignalARRR.Common.Interfaces;
 
-        void RegisterInterface(Type interfaceType, Type instanceType);
-        void RegisterInterface(Type interfaceType, object instance);
-        void RegisterInterface(Type interfaceType, Func<IServiceProvider, object> factory);
+public interface ISignalARRRInterfaceCollection {
+    void RegisterInterface<TInterface, TClass>() where TClass : class, TInterface;
+    void RegisterInterface<TInterface, TClass>(TClass instance) where TClass : class, TInterface;
+    void RegisterInterface<TInterface, TClass>(Func<IServiceProvider, TClass> factory) where TClass : class, TInterface;
 
-        (Delegate Factory, MethodInfo MethodInfo) GetInvokeInformation(string name);
-    }
+    void RegisterInterface(Type interfaceType, Type instanceType);
+    void RegisterInterface(Type interfaceType, object instance);
+    void RegisterInterface(Type interfaceType, Func<IServiceProvider, object> factory);
+
+    (Delegate Factory, MethodInfo MethodInfo) GetInvokeInformation(string name);
 }

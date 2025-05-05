@@ -1,6 +1,3 @@
-﻿namespace doob.SignalARRR.Common.RemoteReferenceTypes {
-    public class StreamReference {
-        public string Uri { get; set; }
+﻿namespace doob.SignalARRR.Common.RemoteReferenceTypes;
 
-    }
-}
+public record StreamReference(string Uri);

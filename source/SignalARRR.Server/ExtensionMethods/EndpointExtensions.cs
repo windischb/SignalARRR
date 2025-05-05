@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 
-namespace doob.SignalARRR.Server.ExtensionMethods {
-    public static class EndpointExtensions {
+namespace doob.SignalARRR.Server.ExtensionMethods;
 
-        public static bool IsSignalREndpoint(this Endpoint endpoint) {
+public static class EndpointExtensions {
 
-            return endpoint?.Metadata.GetMetadata<HubMetadata>() != null;
-        }
+    public static bool IsSignalREndpoint(this Endpoint endpoint) {
 
+        return endpoint?.Metadata.GetMetadata<HubMetadata>() != null;
     }
+
 }

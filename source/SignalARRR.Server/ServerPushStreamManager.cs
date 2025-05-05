@@ -1,37 +1,30 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.IO;
+﻿using System.Collections.Concurrent;
 
-namespace doob.SignalARRR.Server {
-    internal class ServerPushStreamManager {
+namespace doob.SignalARRR.Server;
 
-
-        private readonly ConcurrentDictionary<string, Stream> _pendingStreams = new ConcurrentDictionary<string, Stream>();
+internal class ServerPushStreamManager {
 
 
-        public string StoreStreamForDownload(Stream stream, Uri baseUrl) {
+    private readonly ConcurrentDictionary<string, Stream> _pendingStreams = new ConcurrentDictionary<string, Stream>();
 
-            var uri = new Uri($"{baseUrl}/download/{Guid.NewGuid()}".ToLower());
+
+    public string StoreStreamForDownload(Stream stream, Uri baseUrl) {
+
+        var uri = new Uri($"{baseUrl}/download/{Guid.NewGuid()}".ToLower());
             
-            _pendingStreams.TryAdd(uri.ToString(), stream);
-            return uri.ToString();
+        _pendingStreams.TryAdd(uri.ToString(), stream);
+        return uri.ToString();
 
-        }
+    }
 
-        public Stream GetByIdentifier(string identifier) {
-            if (_pendingStreams.TryGetValue(identifier, out var str)) {
-                return str;
-            }
+    public Stream? GetByIdentifier(string identifier) {
+        return _pendingStreams.GetValueOrDefault(identifier);
+    }
 
-            return null;
-        }
-
-        public void DisposeStream(string identifier) {
-            if(_pendingStreams.TryRemove(identifier, out var stream))
-            {
-                stream?.Dispose();
-            }
+    public void DisposeStream(string identifier) {
+        if(_pendingStreams.TryRemove(identifier, out var stream))
+        {
+            stream?.Dispose();
         }
     }
-    
 }

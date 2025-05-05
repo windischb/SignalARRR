@@ -1,44 +1,32 @@
-﻿using System;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
-using doob.SignalARRR.Common.RemoteReferenceTypes;
+﻿using doob.SignalARRR.Common.RemoteReferenceTypes;
 
-namespace doob.SignalARRR.Client {
-    public class StreamReferenceResolver {
+namespace doob.SignalARRR.Client;
 
-        private readonly StreamReference _streamReference;
-        private readonly HARRRContext _harrrContext;
-
-        public StreamReferenceResolver(StreamReference streamReference, HARRRContext harrrContext) {
-            _streamReference = streamReference;
-            _harrrContext = harrrContext;
-        }
+public class StreamReferenceResolver(StreamReference streamReference) {
 
 
-        public async Task<Stream> ProcessStreamArgument() {
+    public async Task<Stream> ProcessStreamArgument() {
 
-            var uri = new Uri(_streamReference.Uri);
-            switch (uri.Scheme.ToLower()) {
+        var uri = new Uri(streamReference.Uri);
+        switch (uri.Scheme.ToLower()) {
 
-                case "http":
-                case "https": {
-                    return await DownloadStream(uri);
+            case "http":
+            case "https": {
+                return await DownloadStream(uri);
                     
-                }
-                default: {
-                    throw new Exception($"StreamReference.Scheme '{uri.Scheme}' is not implemented!");
-                }
+            }
+            default: {
+                throw new Exception($"StreamReference.Scheme '{uri.Scheme}' is not implemented!");
             }
         }
+    }
 
 
-        private async Task<Stream> DownloadStream(Uri uri) {
-            var httpClient = new HttpClient();
-            var res = await httpClient.GetAsync(uri);
-            return await res.Content.ReadAsStreamAsync();
-
-        }
+    private static async Task<Stream> DownloadStream(Uri uri) {
+        var httpClient = new HttpClient();
+        var res = await httpClient.GetAsync(uri);
+        return await res.Content.ReadAsStreamAsync();
 
     }
+
 }

@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using doob.SignalARRR.Common;
+﻿using doob.SignalARRR.Common;
 
-namespace doob.SignalARRR.Client {
-    public class ServerRequestEventArgs: EventArgs {
+namespace doob.SignalARRR.Client;
 
-        public ServerRequestMessage ServerRequestMessage { get; }
+public class ServerRequestEventArgs(ServerRequestMessage serverRequestMessage) : EventArgs {
 
-        public ServerRequestEventArgs(ServerRequestMessage serverRequestMessage) {
-            ServerRequestMessage = serverRequestMessage;
-        }
-    }
+    public ServerRequestMessage ServerRequestMessage { get; } = serverRequestMessage;
 }

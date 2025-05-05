@@ -1,28 +1,26 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Reflection;
 
-namespace doob.SignalARRR.Common
-{
-    public class ClientInterfaceMethodsCache {
+namespace doob.SignalARRR.Common;
 
-        private ConcurrentDictionary<string, MethodInfo> Methods = new ConcurrentDictionary<string, MethodInfo>();
-        internal Delegate Factory { get; }
-        public ClientInterfaceMethodsCache(Delegate factory, Type interfaceType) {
+public class ClientInterfaceMethodsCache {
 
-            Factory = factory;
+    private ConcurrentDictionary<string, MethodInfo> Methods = new ConcurrentDictionary<string, MethodInfo>();
+    internal Delegate Factory { get; }
+    public ClientInterfaceMethodsCache(Delegate factory, Type interfaceType) {
 
-            var methods = interfaceType.GetMethods(BindingFlags.Public | BindingFlags.Instance);
+        Factory = factory;
 
-            foreach (var methodInfo in methods) {
-                Methods.AddOrUpdate(methodInfo.Name, methodInfo, (s, info) => methodInfo);
-            }
+        var methods = interfaceType.GetMethods(BindingFlags.Public | BindingFlags.Instance);
+
+        foreach (var methodInfo in methods) {
+            Methods.AddOrUpdate(methodInfo.Name, methodInfo, (s, info) => methodInfo);
         }
-
-        internal (Delegate Factory, MethodInfo MethodInfo) GetInvokeInformations(string methodName) {
-            var method = Methods.TryGetValue(methodName, out var methodInfo) ? methodInfo : throw new Exception($"Method '{methodName}' not found!");
-            return (Factory, method);
-        }
-        
     }
+
+    internal (Delegate Factory, MethodInfo MethodInfo) GetInvokeInformations(string methodName) {
+        var method = Methods.TryGetValue(methodName, out var methodInfo) ? methodInfo : throw new Exception($"Method '{methodName}' not found!");
+        return (Factory, method);
+    }
+        
 }

@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
 
-namespace doob.SignalARRR.Server
+namespace doob.SignalARRR.Server;
+
+internal interface IHARRRClientManager
 {
-    internal interface IHARRRClientManager
-    {
-        ClientContext Register(HARRR huc, HubCallerContext hubContext);
-        ClientContext UnRegister(string connectionId);
-        ClientContext GetClient(string connectionId);
-        IEnumerable<ClientContext> GetClients();
-    }
+    ClientContext Register(HARRR huc, HubCallerContext hubContext);
+    ClientContext? UnRegister(string connectionId);
+    ClientContext? GetClient(string connectionId);
+    IEnumerable<ClientContext> GetClients();
 }

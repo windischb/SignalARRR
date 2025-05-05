@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using ImpromptuInterface;
 
-namespace doob.SignalARRR.ProxyGenerator {
-    public class ProxyCreator {
+namespace doob.SignalARRR.ProxyGenerator;
 
-        private static ConcurrentDictionary<Type, object> generatedTypes { get; } = new();
+public class ProxyCreator {
 
-        public static T CreateInstanceFromInterface<T>(ProxyCreatorHelper classCreatorHelper) where T : class {
+    private static ConcurrentDictionary<Type, object> generatedTypes { get; } = new();
 
-            var pr = new SignalARRRDynamicProxy<T>(classCreatorHelper);
+    public static T CreateInstanceFromInterface<T>(ProxyCreatorHelper classCreatorHelper) where T : class {
 
-            return Impromptu.ActLike<T>(pr);
+        var pr = new SignalARRRDynamicProxy<T>(classCreatorHelper);
 
-        }
+        return Impromptu.ActLike<T>(pr);
+
     }
 }

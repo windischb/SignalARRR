@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -24,8 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\source\SignalARRR.Client\SignalARRR.Client.csproj" />
-    <ProjectReference Include="..\..\source\SignalARRR.Server\SignalARRR.Server.csproj" />
+    <ProjectReference Include="..\..\SignalARRR.Client\SignalARRR.Client.csproj" />
+    <ProjectReference Include="..\..\SignalARRR.Server\SignalARRR.Server.csproj" />
     <ProjectReference Include="..\SignalARRR.Tests.SharedModels\SignalARRR.Tests.SharedModels.csproj" />
   </ItemGroup>
 

@@ -1,56 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace doob.SignalARRR.Common.Helper;
 
-namespace doob.SignalARRR.Common.Helper {
-    public class TypeHelper {
+public class TypeHelper {
 
-        private static Dictionary<string, Type> TypeFromString { get; } = new Dictionary<string, Type>();
-        private static object TypeFromStringLock { get; } = new object();
+    private static Dictionary<string, Type> TypeFromString { get; } = new();
+    private static object TypeFromStringLock { get; } = new();
 
-        public static Type FindType(string typeName) {
+    public static Type FindType(string typeName) {
 
-            if (string.IsNullOrWhiteSpace(typeName))
-                return typeof(void);
+        if (string.IsNullOrWhiteSpace(typeName))
+            return typeof(void);
 
 
-            lock (TypeFromStringLock) {
-                if (TypeFromString.ContainsKey(typeName))
-                    return TypeFromString[typeName];
+        lock (TypeFromStringLock) {
+            if (TypeFromString.TryGetValue(typeName, out var type))
+                return type;
 
-                Type foundType = null;
+            Type? foundType = null;
 
-                if (!typeName.Contains(".")) {
-                    foundType = Type.GetType($"System.{typeName}", false, true);
+            if (!typeName.Contains(".")) {
+                foundType = Type.GetType($"System.{typeName}", false, true);
+            }
+
+            if (foundType == null) {
+                var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+                foreach (var assembly in assemblies) {
+
+                    foundType = assembly.GetType(typeName, false, false);
+                    if (foundType != null) {
+                        break;
+                    }
+
                 }
 
                 if (foundType == null) {
-                    var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
                     foreach (var assembly in assemblies) {
-
-                        foundType = assembly.GetType(typeName, false, false);
+                        foundType = assembly.GetType(typeName, false, true);
                         if (foundType != null) {
                             break;
                         }
-
-                    }
-
-                    if (foundType == null) {
-                        foreach (var assembly in assemblies) {
-                            foundType = assembly.GetType(typeName, false, true);
-                            if (foundType != null) {
-                                break;
-                            }
-                        }
                     }
                 }
-
-                TypeFromString.Add(typeName, foundType);
-
-                return foundType;
             }
 
+            if (foundType != null) {
+                TypeFromString.Add(typeName, foundType);
+            }
+
+            return foundType!;
         }
 
     }
+
 }

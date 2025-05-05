@@ -1,7 +1,7 @@
-﻿namespace doob.SignalARRR.Client {
-    public enum HubProtocolType {
-        JsonHubProtocol,
-        NewtonsoftJsonHubProtocol,
-        MessagePackHubProtocol
-    }
+﻿namespace doob.SignalARRR.Client;
+
+public enum HubProtocolType {
+    JsonHubProtocol,
+    NewtonsoftJsonHubProtocol,
+    MessagePackHubProtocol
 }

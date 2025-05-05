@@ -1,41 +1,40 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Reflection;
 using doob.SignalARRR.Common.Interfaces;
 
-namespace doob.SignalARRR.Common {
-    public class SignalARRRMethodsCollection: ISignalARRRMethodsCollection {
+namespace doob.SignalARRR.Common;
 
-        private readonly ConcurrentDictionary<string, (Delegate Factory, MethodInfo MethodInfo)> _collection = new ConcurrentDictionary<string, (Delegate Factory, MethodInfo MethodInfo)>();
+public class SignalARRRMethodsCollection: ISignalARRRMethodsCollection {
 
-        public void AddMethod(string name, MethodInfo methodInfo) {
+    private readonly ConcurrentDictionary<string, (Delegate Factory, MethodInfo MethodInfo)> _collection = new ConcurrentDictionary<string, (Delegate Factory, MethodInfo MethodInfo)>();
 
-            object Factory(IServiceProvider sp) {
-                var fromServiceProvider = sp.GetService(methodInfo.DeclaringType);
-                if (fromServiceProvider != null) {
-                    return fromServiceProvider;
-                }
+    public void AddMethod(string name, MethodInfo methodInfo) {
 
-                return Activator.CreateInstance(methodInfo.DeclaringType);
+        object Factory(IServiceProvider sp) {
+            var fromServiceProvider = sp.GetService(methodInfo.DeclaringType);
+            if (fromServiceProvider != null) {
+                return fromServiceProvider;
             }
 
-            AddMethod(name, methodInfo, Factory);
+            return Activator.CreateInstance(methodInfo.DeclaringType);
         }
 
-        public void AddMethod(string name, MethodInfo methodInfo, object instance) {
-            AddMethod(name, methodInfo, (sp) => instance);
+        AddMethod(name, methodInfo, Factory);
+    }
+
+    public void AddMethod(string name, MethodInfo methodInfo, object instance) {
+        AddMethod(name, methodInfo, (sp) => instance);
+    }
+
+    public void AddMethod<T>(string name, MethodInfo methodInfo, Func<IServiceProvider, T> factory = null) {
+        _collection.AddOrUpdate(name, (factory, methodInfo), (s, tuple) => (factory, methodInfo));
+    }
+
+    public (Delegate Factory, MethodInfo MethodInfo) GetMethodInformation(string name) {
+        if (_collection.TryGetValue(name, out var methodsCache)) {
+            return methodsCache;
         }
 
-        public void AddMethod<T>(string name, MethodInfo methodInfo, Func<IServiceProvider, T> factory = null) {
-            _collection.AddOrUpdate(name, (factory, methodInfo), (s, tuple) => (factory, methodInfo));
-        }
-
-        public (Delegate Factory, MethodInfo MethodInfo) GetMethodInformations(string name) {
-            if (_collection.TryGetValue(name, out var methodsCache)) {
-                return methodsCache;
-            }
-
-            throw new Exception($"Method '{name}' not found!");
-        }
+        throw new Exception($"Method '{name}' not found!");
     }
 }

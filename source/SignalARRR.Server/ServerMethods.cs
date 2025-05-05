@@ -1,21 +1,20 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
-namespace doob.SignalARRR.Server {
-    public class ServerMethods {
-        public ClientContext ClientContext { get; set; }
+namespace doob.SignalARRR.Server;
 
-        public HubCallerContext Context { get; set; }
+public class ServerMethods {
+    public ClientContext ClientContext { get; set; }
 
-        public IHubCallerClients Clients { get; set; }
+    public HubCallerContext Context { get; set; }
 
-        public IGroupManager Groups { get; set; }
+    public IHubCallerClients Clients { get; set; }
 
-        public ILogger Logger { get; set; }
-    }
+    public IGroupManager Groups { get; set; }
 
-    public class ServerMethods<T> : ServerMethods where T : HARRR {
+    public ILogger Logger { get; set; }
+}
 
-    }
+public class ServerMethods<T> : ServerMethods where T : HARRR {
 
 }
