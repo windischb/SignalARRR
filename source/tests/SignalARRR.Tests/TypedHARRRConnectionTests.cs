@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using doob.Reflectensions.ExtensionMethods;
 using doob.SignalARRR.Client;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.AspNetCore.TestHost;
@@ -51,5 +52,37 @@ public class TypedHARRRConnectionTests {
         var name = await serverMethods.GetNameAsync();
 
         Assert.Equal("MyNameAsync", name);
+    }
+    
+    [Fact]
+    public async Task GetGuid() {
+
+        var serverMethods = await GetTypeConnection<ITestServerMethods>();
+        var name = serverMethods.GetGuid();
+
+        Assert.Equal(typeof(Guid), name.GetType());
+    }
+    
+    [Fact]
+    public async Task GetGuidAsync() {
+
+        var serverMethods = await GetTypeConnection<ITestServerMethods>();
+        var name = await serverMethods.GetGuidAsync();
+
+        Assert.Equal(typeof(Guid), name.GetType());
+    }
+    
+    [Fact]
+    public async Task Nothing() {
+
+        var serverMethods = await GetTypeConnection<ITestServerMethods>();
+        serverMethods.Nothing();
+    }
+    
+    [Fact]
+    public async Task NothingAsync() {
+
+        var serverMethods = await GetTypeConnection<ITestServerMethods>();
+        await serverMethods.NothingAsync();
     }
 }

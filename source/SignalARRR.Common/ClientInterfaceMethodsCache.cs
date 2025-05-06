@@ -14,7 +14,7 @@ public class ClientInterfaceMethodsCache {
         var methods = interfaceType.GetMethods(BindingFlags.Public | BindingFlags.Instance);
 
         foreach (var methodInfo in methods) {
-            Methods.AddOrUpdate(methodInfo.Name, methodInfo, (s, info) => methodInfo);
+            Methods.TryAdd(methodInfo.Name, methodInfo);
         }
     }
 
